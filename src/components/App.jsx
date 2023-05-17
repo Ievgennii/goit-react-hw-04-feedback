@@ -6,28 +6,29 @@ import Notification from './Notification';
 import css from './Feedback.module.css';
 
 const App = () => {
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  });
 
-  const handleIncrement = (selectedFeedback) => {
-    setFeedback((prevFeedback) => ({
-      ...prevFeedback,
-      [selectedFeedback]: prevFeedback[selectedFeedback] + 1,
-    }));
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleIncrement = (feedback) => {
+    if (feedback === 'good') {
+      setGood((prevGood) => prevGood + 1);
+    } else if (feedback === 'neutral') {
+      setNeutral((prevNeutral) => prevNeutral + 1);
+    } else if (feedback === 'bad') {
+      setBad((prevBad) => prevBad + 1);
+    }
   };
 
   const countTotalFeedback = () => {
-    const { good, neutral, bad } = feedback;
     return good + neutral + bad;
   };
 
   const countPositiveFeedbackPercentage = () => {
     const total = countTotalFeedback();
     if (total > 0) {
-      return Math.round((feedback.good / total) * 100);
+      return Math.round((good / total) * 100);
     } else {
       return 0;
     }
@@ -35,7 +36,38 @@ const App = () => {
 
   const totalFeedback = countTotalFeedback();
   const positivePercentage = countPositiveFeedbackPercentage();
-  const options = Object.keys(feedback);
+  const options = ['good', 'neutral', 'bad'];
+
+  // const [feedback, setFeedback] = useState({
+  //   good: 0,
+  //   neutral: 0,
+  //   bad: 0,
+  // });
+
+  // const handleIncrement = (selectedFeedback) => {
+  //   setFeedback((prevFeedback) => ({
+  //     ...prevFeedback,
+  //     [selectedFeedback]: prevFeedback[selectedFeedback] + 1,
+  //   }));
+  // };
+
+  // const countTotalFeedback = () => {
+  //   const { good, neutral, bad } = feedback;
+  //   return good + neutral + bad;
+  // };
+
+  // const countPositiveFeedbackPercentage = () => {
+  //   const total = countTotalFeedback();
+  //   if (total > 0) {
+  //     return Math.round((feedback.good / total) * 100);
+  //   } else {
+  //     return 0;
+  //   }
+  // };
+
+  // const totalFeedback = countTotalFeedback();
+  // const positivePercentage = countPositiveFeedbackPercentage();
+  // const options = Object.keys(feedback);
 
   return (
     <div className={css.section}>
@@ -46,9 +78,9 @@ const App = () => {
       <Section title="Statistics">
         {totalFeedback > 0 ? (
           <Statistics
-            good={feedback.good}
-            neutral={feedback.neutral}
-            bad={feedback.bad}
+            good={good}
+            neutral={neutral}
+            bad={bad}
             total={totalFeedback}
             positivePercentage={positivePercentage}
           />
@@ -123,4 +155,4 @@ export default App;
 //   }
 // }
 
-// export default App;
+
